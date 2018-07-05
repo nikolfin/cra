@@ -9,7 +9,7 @@ class TodoApp extends Component {
         return (
             <div>
                 <input ref={node => {this.input = node}} />
-                <button onClick={() => {this.props.handleAddTodo(this.input.text)}}>add todo</button>
+                <button onClick={() => {this.props.handleAddTodo(this.input.value)}}>add todo</button>
                 <ul>
                     {this.props.todos.map(todo =>
                         <li key={todo.id} onClick={() => {this.props.handleToggleTodo(todo.id)}}>
@@ -29,14 +29,12 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        handleAddTodo: () => {
-            console.log(this, this.input)
+        handleAddTodo: (text) => {
             dispatch({
                 type: 'ADD_TODO',
                 id: todoId++,
-                text: this.input.value
+                text: text
             });
-            this.input.value = '';
         },
         handleToggleTodo: (id) => {
             dispatch({
