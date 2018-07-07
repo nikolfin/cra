@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-
 let todoId = 0;
 
 class TodoApp extends Component {
@@ -9,10 +8,15 @@ class TodoApp extends Component {
         return (
             <div>
                 <input ref={node => {this.input = node}} />
-                <button onClick={() => {this.props.handleAddTodo(this.input.value)}}>add todo</button>
+                <button onClick={() => {this.props.handleAddTodo(this.input)}}>add todo</button>
                 <ul>
                     {this.props.todos.map(todo =>
-                        <li key={todo.id} onClick={() => {this.props.handleToggleTodo(todo.id)}}>
+                        <li key={todo.id}
+                            onClick={() => {this.props.handleToggleTodo(todo.id)}}
+                            style={{
+                                textDecoration: todo.completed ? 'line-through' : '',
+                                cursor: 'pointer'
+                            }}>
                             {todo.text}
                         </li>
                     )}
@@ -22,33 +26,30 @@ class TodoApp extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        todos: state.todos
-    }
-}
-const mapDispatchToProps = dispatch => {
-    return {
-        handleAddTodo: (text) => {
-            dispatch({
-                type: 'ADD_TODO',
-                id: todoId++,
-                text: text
-            });
-        },
-        handleToggleTodo: (id) => {
-            dispatch({
-                type: 'TOGGLE_TODO',
-                id: id
-            })
+export default connect(
+    state => {
+        return {
+            todos: state.todos
+        }
+    },
+    dispatch => {
+        return {
+            handleAddTodo: (input) => {
+                dispatch({
+                    type: 'ADD_TODO',
+                    id: todoId++,
+                    text: input.value
+                });
+                input.value = '';
+            },
+            handleToggleTodo: (id) => {
+                dispatch({
+                    type: 'TOGGLE_TODO',
+                    id: id
+                })
+            }
         }
     }
-}
-
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
 )(TodoApp)
 
 // Доделать все кроме роутинга
