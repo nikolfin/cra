@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
 
 let todoId = 0;
@@ -6,7 +6,7 @@ let todoId = 0;
 class TodoApp extends Component {
     render() {
         return (
-            <div>
+            <Fragment>
                 <input ref={node => {this.input = node}} />
                 <button onClick={() => {this.props.handleAddTodo(this.input)}}>add todo</button>
                 <ul>
@@ -21,7 +21,12 @@ class TodoApp extends Component {
                         </li>
                     )}
                 </ul>
-            </div>
+                <footer className="footer">
+                    <span>reset</span>
+                    <span>completed</span>
+                    <span>uncompleted</span>
+                </footer>
+            </Fragment>
         )
     }
 }

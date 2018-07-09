@@ -14,7 +14,11 @@ const store = createStore(
     composeWithDevTools()
 );
 
-
-render(<Provider store={store}><TodoApp /></Provider>, document.getElementById('root'));
+render(
+    <Provider store={store}>
+        <TodoApp />
+    </Provider>,
+    document.getElementById('root')
+);
 
 registerServiceWorker();
