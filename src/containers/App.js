@@ -1,18 +1,36 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 
 let todoId = 0;
 
 class TodoApp extends Component {
+    static propTypes = {
+        todos: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number,
+                text: PropTypes.string,
+                completed: PropTypes.boolean
+            })
+        ),
+        handleToggleTodo: PropTypes.func,
+        handleFiltered: PropTypes.func,
+        visibilityFilter: PropTypes.oneOf([
+            'SHOW_ALL',
+            'SHOW_COMPLETED',
+            'SHOW_UNCOMPLETED'
+        ])
+    }
+
     render() {
         return (
             <Fragment>
                 <input ref={node => {this.input = node}} />
-                <button onClick={() => {this.props.handleAddTodo(this.input)}}>add todo</button>
+                <button onClick={() => this.props.handleAddTodo(this.input)}>add todo</button>
                 <ul>
                     {this.props.todos.map(todo =>
                         <li key={todo.id}
-                            onClick={() => {this.props.handleToggleTodo(todo.id)}}
+                            onClick={() => this.props.handleToggleTodo(todo.id)}
                             style={{
                                 textDecoration: todo.completed ? 'line-through' : '',
                                 cursor: 'pointer'
@@ -22,9 +40,9 @@ class TodoApp extends Component {
                     )}
                 </ul>
                 <footer className="footer">
-                    <span>reset</span>
-                    <span>completed</span>
-                    <span>uncompleted</span>
+                    <span onClick={() => this.props.handleFiltered('SHOW_ALL')}>reset</span>&nbsp;
+                    <span onClick={() => this.props.handleFiltered('SHOW_COMPLETED')}>completed</span>&nbsp;
+                    <span onClick={() => this.props.handleFiltered('SHOW_UNCOMPLETED')}>uncompleted</span>
                 </footer>
             </Fragment>
         )
@@ -34,12 +52,14 @@ class TodoApp extends Component {
 export default connect(
     state => {
         return {
-            todos: state.todos
+            todos: state.todos,
+            visibilityFilter: state.visibilityFilter
         }
     },
     dispatch => {
         return {
             handleAddTodo: (input) => {
+                if (!input.value) return;
                 dispatch({
                     type: 'ADD_TODO',
                     id: todoId++,
@@ -50,7 +70,13 @@ export default connect(
             handleToggleTodo: (id) => {
                 dispatch({
                     type: 'TOGGLE_TODO',
-                    id: id
+                    id
+                })
+            },
+            handleFiltered: (filter) => {
+                dispatch({
+                    type: 'SET_VISIBILITY_FILTER',
+                    filter
                 })
             }
         }
