@@ -20,17 +20,19 @@ class TodoApp extends Component {
             'SHOW_COMPLETED',
             'SHOW_UNCOMPLETED'
         ])
-    }
+    };
 
     render() {
+        const { todos, handleAddTodo, handleToggleTodo } = this.props;
+
         return (
             <Fragment>
                 <input ref={node => {this.input = node}} />
-                <button onClick={() => this.props.handleAddTodo(this.input)}>add todo</button>
+                <button onClick={() => handleAddTodo(this.input)}>add todo</button>
                 <ul>
-                    {this.props.todos.map(todo =>
+                    {this.getCurrentTodoList(todos).map(todo =>
                         <li key={todo.id}
-                            onClick={() => this.props.handleToggleTodo(todo.id)}
+                            onClick={() => handleToggleTodo(todo.id)}
                             style={{
                                 textDecoration: todo.completed ? 'line-through' : '',
                                 cursor: 'pointer'
@@ -46,6 +48,26 @@ class TodoApp extends Component {
                 </footer>
             </Fragment>
         )
+    }
+
+    getCurrentTodoList(todos) {
+        const { visibilityFilter } = this.props;
+
+        return todos.filter(todoItem => {
+            switch(visibilityFilter) {
+                case 'SHOW_ALL':
+                    return todoItem;
+
+                case 'SHOW_COMPLETED':
+                    return todoItem.completed;
+
+                case 'SHOW_UNCOMPLETED':
+                    return !todoItem.completed;
+
+                default:
+                    return null;
+            }
+        });
     }
 }
 
