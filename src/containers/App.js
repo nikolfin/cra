@@ -35,6 +35,7 @@ class TodoApp extends Component {
                             onClick={() => handleToggleTodo(todo.id)}
                             style={{
                                 textDecoration: todo.completed ? 'line-through' : '',
+                                color: todo.completed ? '#a0a0a0' : '#000',
                                 cursor: 'pointer'
                             }}>
                             {todo.text}
