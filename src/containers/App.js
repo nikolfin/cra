@@ -27,26 +27,32 @@ class TodoApp extends Component {
 
         return (
             <Fragment>
-                <input ref={node => {this.input = node}} />
-                <button onClick={() => handleAddTodo(this.input)}>add todo</button>
-                <ul>
-                    {this.getCurrentTodoList(todos).map(todo =>
-                        <li key={todo.id}
-                            onClick={() => handleToggleTodo(todo.id)}
-                            style={{
-                                textDecoration: todo.completed ? 'line-through' : '',
-                                color: todo.completed ? '#a0a0a0' : '#000',
-                                cursor: 'pointer'
-                            }}>
-                            {todo.text}
-                        </li>
-                    )}
-                </ul>
-                <footer className="footer">
-                    <span onClick={() => this.props.handleFiltered('SHOW_ALL')}>reset</span>&nbsp;
-                    <span onClick={() => this.props.handleFiltered('SHOW_COMPLETED')}>completed</span>&nbsp;
-                    <span onClick={() => this.props.handleFiltered('SHOW_UNCOMPLETED')}>uncompleted</span>
-                </footer>
+                {/*Вынести в отдельный компонент*/}
+                    <input ref={node => {this.input = node}} />
+                    <button onClick={() => handleAddTodo(this.input)}>add todo</button>
+                {/*Вынести в отдельный компонент*/}
+                {/*Вынести в отдельный компонент*/}
+                    <ul>
+                        {this.getCurrentTodoList(todos).map(todo =>
+                            <li key={todo.id}
+                                onClick={() => handleToggleTodo(todo.id)}
+                                style={{
+                                    textDecoration: todo.completed ? 'line-through' : '',
+                                    color: todo.completed ? '#a0a0a0' : '#000',
+                                    cursor: 'pointer'
+                                }}>
+                                {todo.text}
+                            </li>
+                        )}
+                    </ul>
+                {/*Вынести в отдельный компонент*/}
+                {/*Вынести в отдельный компонент*/}
+                    <footer className="footer">
+                        <span onClick={() => this.props.handleFiltered('SHOW_ALL')}>reset</span>&nbsp;
+                        <span onClick={() => this.props.handleFiltered('SHOW_COMPLETED')}>completed</span>&nbsp;
+                        <span onClick={() => this.props.handleFiltered('SHOW_UNCOMPLETED')}>uncompleted</span>
+                    </footer>
+                {/*Вынести в отдельный компонент*/}
             </Fragment>
         )
     }
@@ -106,7 +112,7 @@ export default connect(
     }
 )(TodoApp)
 
-// Доделать все кроме роутинга
 // разбиение на простые компоненты и контейнеры
-// полная функциональность туду приложения (добавление, тугл, фильтр)
-// прикрутить редаксовский дебагер для простоты отладки
+// отображение выбранного фильтра
+// сохранение листа в localStorage
+// роутинг
