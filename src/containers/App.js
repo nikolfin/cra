@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
+import { FooterLink } from '../components/footer-link'
 
 let todoId = 0;
 
@@ -43,9 +44,9 @@ class TodoApp extends Component {
                     )}
                 </ul>
                 <footer className="footer">
-                    <span onClick={() => this.props.handleFiltered('SHOW_ALL')}>reset</span>&nbsp;
-                    <span onClick={() => this.props.handleFiltered('SHOW_COMPLETED')}>completed</span>&nbsp;
-                    <span onClick={() => this.props.handleFiltered('SHOW_UNCOMPLETED')}>uncompleted</span>
+                    <FooterLink onFiltered={() => this.props.handleFiltered('SHOW_ALL')} currentFilter={this.props.visibilityFilter}>reset</FooterLink>&nbsp;
+                    <FooterLink onFiltered={() => this.props.handleFiltered('SHOW_COMPLETED')} currentFilter={this.props.visibilityFilter}>completed</FooterLink>&nbsp;
+                    <FooterLink onFiltered={() => this.props.handleFiltered('SHOW_UNCOMPLETED')} currentFilter={this.props.visibilityFilter}>uncompleted</FooterLink>
                 </footer>
             </Fragment>
         )
